@@ -1,0 +1,448 @@
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.game-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ============================================
+   GAME HEADER
+   ============================================ */
+.game-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.game-header h1 {
+    color: white;
+    font-size: 2.5em;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* ============================================
+   TOP UI BAR (Fixed)
+   ============================================ */
+.top-ui-bar {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 50;
+    flex-wrap: wrap;
+}
+
+.ui-item {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    min-width: 100px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.fuel-item {
+    min-width: 150px;
+}
+
+.ui-label {
+    font-size: 0.75em;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.ui-value {
+    font-size: 1.6em;
+    font-weight: 800;
+    color: #2c3e50;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.ui-value.small {
+    font-size: 1.2em;
+}
+
+/* ============================================
+   FUEL BAR
+   ============================================ */
+.fuel-bar-container {
+    width: 100%;
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 6px 0;
+    border: 2px solid #bbb;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.fuel-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    transition: width 0.2s ease, background 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.fuel-bar.low {
+    background: linear-gradient(90deg, #FF9800, #FFC107);
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+}
+
+.fuel-bar.critical {
+    background: linear-gradient(90deg, #F44336, #FF5722);
+    animation: pulse 0.6s infinite;
+    box-shadow: 0 0 10px rgba(244, 67, 54, 0.8);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.7; transform: scaleY(0.95); }
+}
+
+/* ============================================
+   BOOST INDICATOR
+   ============================================ */
+.boost-indicator {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 193, 7, 0.95);
+    padding: 8px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.6);
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.boost-indicator.active {
+    opacity: 1;
+    animation: boostPulse 0.5s infinite;
+}
+
+@keyframes boostPulse {
+    0%, 100% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.05); }
+}
+
+.boost-label {
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.9em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.boost-bar-container {
+    width: 150px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.boost-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #FF6B6B, #FFD93D);
+    border-radius: 8px;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+}
+
+/* ============================================
+   CANVAS
+   ============================================ */
+#gameCanvas {
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    height: 600px;
+    background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 50%, #90EE90 100%);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   MOBILE CONTROLS
+   ============================================ */
+.mobile-controls {
+    display: none;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 15px;
+    z-index: 70;
+}
+
+.control-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+}
+
+.btn-forward {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.btn-brake {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+.btn-reverse {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+}
+
+/* Show mobile controls on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .mobile-controls {
+        display: flex;
+    }
+}
+
+/* ============================================
+   SCREEN OVERLAYS
+   ============================================ */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+}
+
+.screen.hidden {
+    display: none;
+}
+
+.screen-content {
+    text-align: center;
+    color: white;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    max-width: 500px;
+}
+
+.screen-content h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+    font-weight: 800;
+}
+
+.screen-content p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.controls-info {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    font-size: 1em;
+    line-height: 1.8;
+}
+
+.controls-info div {
+    margin: 6px 0;
+}
+
+.final-score {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 25px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.stats-grid .ui-label {
+    color: #ddd;
+    font-size: 0.9em;
+}
+
+.stats-grid .ui-value {
+    color: white;
+    font-size: 2em;
+    margin-top: 8px;
+}
+
+/* ============================================
+   GAME BUTTON
+   ============================================ */
+.game-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 16px 45px;
+    font-size: 1.4em;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    pointer-events: all;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.game-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.game-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    .game-header h1 {
+        font-size: 1.8em;
+    }
+
+    #gameCanvas {
+        height: 400px;
+    }
+
+    .top-ui-bar {
+        top: 60px;
+        gap: 8px;
+    }
+
+    .ui-item {
+        min-width: 80px;
+        padding: 8px 12px;
+    }
+
+    .fuel-item {
+        min-width: 120px;
+    }
+
+    .ui-value {
+        font-size: 1.3em;
+    }
+
+    .ui-value.small {
+        font-size: 1em;
+    }
+
+    .screen-content h2 {
+        font-size: 2em;
+    }
+
+    .screen-content p {
+        font-size: 1em;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .boost-indicator {
+        bottom: 130px;
+    }
+
+    .control-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-container {
+        padding: 10px;
+    }
+
+    .top-ui-bar {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .ui-item {
+        flex: 1 1 calc(50% - 5px);
+        min-width: 70px;
+        padding: 6px 10px;
+    }
+
+    .fuel-item {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+}
