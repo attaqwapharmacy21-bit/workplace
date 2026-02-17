@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hill Climbing Racing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Game Title -->
+        <div class="game-header">
+            <h1>🏁 Hill Climbing Racing</h1>
+        </div>
+        
+        <!-- Top UI Bar -->
+        <div class="top-ui-bar">
+            <div class="ui-item">
+                <div class="ui-label">Level</div>
+                <div class="ui-value" id="levelValue">1</div>
+            </div>
+            <div class="ui-item">
+                <div class="ui-label">Distance</div>
+                <div class="ui-value" id="scoreValue">0m</div>
+            </div>
+            <div class="ui-item fuel-item">
+                <div class="ui-label">Fuel</div>
+                <div class="fuel-bar-container">
+                    <div class="fuel-bar" id="fuelBar"></div>
+                </div>
+                <div class="ui-value small" id="fuelValue">100%</div>
+            </div>
+            <div class="ui-item">
+                <div class="ui-label">Speed</div>
+                <div class="ui-value" id="speedValue">0</div>
+            </div>
+            <div class="ui-item">
+                <div class="ui-label">💰 Coins</div>
+                <div class="ui-value" id="coinValue">0</div>
+            </div>
+        </div>
+        
+        <!-- Boost Indicator -->
+        <div class="boost-indicator" id="boostIndicator">
+            <div class="boost-label">⚡ BOOST</div>
+            <div class="boost-bar-container">
+                <div class="boost-bar" id="boostBar"></div>
+            </div>
+        </div>
+        
+        <!-- Game Canvas -->
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Mobile Controls -->
+        <div class="mobile-controls" id="mobileControls">
+            <button class="control-btn btn-reverse" id="btnReverse">
+                <span>◀ A</span>
+            </button>
+            <button class="control-btn btn-brake" id="btnBrake">
+                <span>■ B</span>
+            </button>
+            <button class="control-btn btn-forward" id="btnForward">
+                <span>▶ D</span>
+            </button>
+        </div>
+        
+        <!-- Start Screen -->
+        <div class="screen" id="startScreen">
+            <div class="screen-content">
+                <h2>🏎️ Hill Climbing Racing</h2>
+                <p>Race across dynamic terrain and collect coins!</p>
+                <div class="controls-info">
+                    <div><strong>Desktop Controls:</strong></div>
+                    <div>D: Accelerate Forward</div>
+                    <div>A: Reverse</div>
+                    <div>B: Brake</div>
+                    <div style="margin-top: 10px;"><strong>Mobile:</strong> Use on-screen buttons</div>
+                </div>
+                <button class="game-button" id="startButton">🚀 Start Game</button>
+            </div>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div class="screen hidden" id="gameOverScreen">
+            <div class="screen-content">
+                <h2>🏁 Game Over!</h2>
+                <p id="gameOverReason">Your car flipped!</p>
+                <div class="final-score">
+                    <div class="stats-grid">
+                        <div>
+                            <div class="ui-label">Distance</div>
+                            <div class="ui-value" id="finalScore">0m</div>
+                        </div>
+                        <div>
+                            <div class="ui-label">Coins</div>
+                            <div class="ui-value" id="finalCoins">0</div>
+                        </div>
+                        <div>
+                            <div class="ui-label">Level</div>
+                            <div class="ui-value" id="finalLevel">1</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="game-button" id="restartButton">🔄 Play Again</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
