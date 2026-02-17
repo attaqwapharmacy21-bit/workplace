@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamp Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --lamp-yellow: #ffd966;
+            --lamp-gold: #b8860b;
+            --text-dim: #4a4a4a;
+            --text-light: #e0e0e0;
+            --form-bg: rgba(30, 30, 30, 0.6);
+            --form-bg-lit: rgba(40, 40, 40, 0.9);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem;
+            gap: 4rem;
+        }
+
+        .title {
+            position: absolute;
+            top: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--lamp-yellow);
+            text-shadow: 0 0 20px rgba(255, 217, 102, 0.3);
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        /* Lamp Section */
+        .lamp-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .lamp-container {
+            position: relative;
+            width: 300px;
+            height: 500px;
+        }
+
+        /* Lamp Glow Effect */
+        .lamp-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: 
+                radial-gradient(circle at center, rgba(255, 230, 150, 0.5) 0%, rgba(255, 217, 102, 0.35) 20%, rgba(255, 200, 80, 0.2) 40%, rgba(255, 180, 60, 0.08) 60%, transparent 75%);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+
+        .lamp-glow.active {
+            opacity: 1;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+                opacity: 0.9;
+            }
+        }
+
+        /* Lamp Base */
+        .lamp-base {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 30px;
+            background: linear-gradient(to bottom, #404040 0%, #2a2a2a 50%, #1a1a1a 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 6px 15px rgba(0, 0, 0, 0.7),
+                inset 0 3px 8px rgba(255, 255, 255, 0.05),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        .lamp-base::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 10%;
+            width: 80%;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        /* Lamp Stand */
+        .lamp-stand {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 180px;
+            background: linear-gradient(to right, #252525 0%, #2a2a2a 15%, #383838 50%, #2a2a2a 85%, #252525 100%);
+            border-radius: 6px;
+            box-shadow: 
+                inset 0 0 8px rgba(0, 0, 0, 0.6),
+                inset 2px 0 3px rgba(255, 255, 255, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Lamp Shade */
+        .lamp-shade {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 120px;
+            background: linear-gradient(165deg, #353535 0%, #2a2a2a 30%, #1a1a1a 100%);
+            border-radius: 90px 90px 0 0 / 30px 30px 0 0;
+            clip-path: polygon(18% 0%, 82% 0%, 100% 100%, 0% 100%);
+            border: none;
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.6),
+                inset 0 3px 8px rgba(255, 255, 255, 0.08),
+                inset 0 -25px 35px rgba(0, 0, 0, 0.4),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.6s ease;
+        }
+
+        .lamp-shade::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 30%;
+            height: 40%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+            border-radius: 50%;
+            filter: blur(8px);
+            transition: all 0.6s ease;
+        }
+
+        .lamp-shade.lit {
+            background: linear-gradient(165deg, #5a5a3a 0%, #4a4a2a 30%, #3a3a1a 100%);
+            box-shadow: 
+                0 15px 50px rgba(255, 217, 102, 0.4),
+                inset 0 3px 12px rgba(255, 240, 180, 0.3),
+                inset 0 -30px 50px rgba(255, 217, 102, 0.25),
+                0 0 80px rgba(255, 217, 102, 0.5),
+                0 5px 20px rgba(255, 200, 50, 0.3);
+        }
+
+        .lamp-shade.lit::before {
+            background: linear-gradient(135deg, rgba(255, 240, 200, 0.4) 0%, transparent 60%);
+        }
+
+        /* Light Bulb */
+        .light-bulb {
+            position: absolute;
+            top: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 70px;
+            background: linear-gradient(160deg, #404040 0%, #2a2a2a 50%, #1a1a1a 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transition: all 0.6s ease;
+            box-shadow: 
+                inset 0 -5px 15px rgba(0, 0, 0, 0.6),
+                inset 3px 3px 8px rgba(255, 255, 255, 0.05),
+                0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .light-bulb::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 20%;
+            width: 35%;
+            height: 40%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), transparent 60%);
+            border-radius: 50%;
+            filter: blur(3px);
+            transition: all 0.6s ease;
+        }
+
+        .light-bulb.lit {
+            background: radial-gradient(circle at 40% 30%, #fffbf0 0%, #fff4d6 25%, #ffd966 50%, #d4a747 80%, #b8860b 100%);
+            box-shadow: 
+                0 0 60px rgba(255, 217, 102, 1),
+                0 0 100px rgba(255, 217, 102, 0.6),
+                0 0 140px rgba(255, 217, 102, 0.3),
+                inset 0 -8px 20px rgba(255, 200, 50, 0.4),
+                inset 4px 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        .light-bulb.lit::before {
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+        }
+
+        /* Pull Cord */
+        .pull-cord-container {
+            position: absolute;
+            top: 190px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .pull-cord {
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, #3a3a3a 0%, #5a5a5a 50%, #4a4a4a 100%);
+            margin: 0 auto;
+            transition: height 0.15s ease-out;
+            box-shadow: 
+                0 2px 6px rgba(0, 0, 0, 0.4),
+                1px 0 1px rgba(255, 255, 255, 0.1);
+            border-radius: 1px;
+        }
+
+        .pull-knob {
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 35% 35%, #7a7a7a, #5a5a5a 40%, #3a3a3a 70%, #2a2a2a);
+            border-radius: 50%;
+            margin: 0 auto;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.6),
+                inset -3px -3px 6px rgba(0, 0, 0, 0.5),
+                inset 3px 3px 6px rgba(255, 255, 255, 0.15),
+                0 1px 2px rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .pull-knob::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 25%;
+            width: 40%;
+            height: 40%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4), transparent 60%);
+            border-radius: 50%;
+            filter: blur(1px);
+        }
+
+        .pull-knob:hover {
+            transform: scale(1.15);
+            background: radial-gradient(circle at 35% 35%, #8a8a8a, #6a6a6a 40%, #4a4a4a 70%, #3a3a3a);
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.7),
+                inset -3px -3px 6px rgba(0, 0, 0, 0.5),
+                inset 3px 3px 6px rgba(255, 255, 255, 0.25),
+                0 2px 4px rgba(255, 255, 255, 0.15);
+        }
+
+        .pull-cord-container.pulling .pull-cord {
+            height: 120px;
+        }
+
+        /* Login Form Section */
+        .login-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+            padding: 3rem 2.5rem;
+            background: var(--form-bg);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.6s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+        }
+
+        .login-form.active {
+            background: var(--form-bg-lit);
+            border: 1px solid rgba(255, 217, 102, 0.2);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(255, 217, 102, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            text-align: center;
+            transition: color 0.6s ease;
+        }
+
+        .login-form.active .form-title {
+            color: var(--text-light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.6s ease;
+        }
+
+        .login-form.active label {
+            color: #999;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            color: var(--text-dim);
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .login-form.active input {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+
+        .login-form.active input:focus {
+            border-color: var(--lamp-yellow);
+            box-shadow: 0 0 0 3px rgba(255, 217, 102, 0.1);
+        }
+
+        input:disabled {
+            cursor: not-allowed;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--text-dim);
+            color: #1a1a1a;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: not-allowed;
+            transition: all 0.6s ease;
+            margin-top: 1rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .login-form.active .login-button {
+            background: linear-gradient(135deg, var(--lamp-yellow) 0%, var(--lamp-gold) 100%);
+            color: #1a1a1a;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 217, 102, 0.3);
+        }
+
+        .login-form.active .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 217, 102, 0.4);
+        }
+
+        .login-form.active .login-button:active {
+            transform: translateY(0);
+        }
+
+        .hint-text {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--text-dim);
+            font-style: italic;
+            transition: all 0.6s ease;
+        }
+
+        .login-form.active .hint-text {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .title {
+                top: 2rem;
+                font-size: 2rem;
+            }
+
+            .lamp-container {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .login-form {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Custom Cursor for Pull Cord */
+        .pull-cord-container {
+            cursor: grab;
+        }
+
+        .pull-cord-container.pulling {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Lamp-login</h1>
+    
+    <div class="container">
+        <!-- Lamp Section -->
+        <div class="lamp-section">
+            <div class="lamp-container">
+                <div class="lamp-glow" id="lampGlow"></div>
+                <div class="lamp-shade" id="lampShade"></div>
+                <div class="light-bulb" id="lightBulb"></div>
+                <div class="lamp-stand"></div>
+                <div class="lamp-base"></div>
+                
+                <div class="pull-cord-container" id="pullCord">
+                    <div class="pull-cord"></div>
+                    <div class="pull-knob"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Form Section -->
+        <div class="login-section">
+            <form class="login-form" id="loginForm">
+                <h2 class="form-title">Welcome Back</h2>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your@email.com"
+                        disabled
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password"
+                        disabled
+                    >
+                </div>
+                
+                <button type="submit" class="login-button" disabled>
+                    Login
+                </button>
+                
+                <p class="hint-text">💡 Pull the lamp cord to illuminate the form</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const pullCord = document.getElementById('pullCord');
+        const lampGlow = document.getElementById('lampGlow');
+        const lampShade = document.getElementById('lampShade');
+        const lightBulb = document.getElementById('lightBulb');
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginButton = loginForm.querySelector('.login-button');
+
+        let isLampOn = false;
+        let isDragging = false;
+        let startY = 0;
+
+        // Toggle lamp state
+        function toggleLamp() {
+            isLampOn = !isLampOn;
+            
+            if (isLampOn) {
+                // Turn lamp ON
+                lampGlow.classList.add('active');
+                lampShade.classList.add('lit');
+                lightBulb.classList.add('lit');
+                loginForm.classList.add('active');
+                
+                // Enable form inputs
+                emailInput.disabled = false;
+                passwordInput.disabled = false;
+                loginButton.disabled = false;
+            } else {
+                // Turn lamp OFF
+                lampGlow.classList.remove('active');
+                lampShade.classList.remove('lit');
+                lightBulb.classList.remove('lit');
+                loginForm.classList.remove('active');
+                
+                // Disable form inputs
+                emailInput.disabled = true;
+                passwordInput.disabled = true;
+                loginButton.disabled = true;
+            }
+        }
+
+        // Click handler
+        pullCord.addEventListener('click', () => {
+            pullCord.classList.add('pulling');
+            setTimeout(() => {
+                pullCord.classList.remove('pulling');
+                toggleLamp();
+            }, 150);
+        });
+
+        // Mouse drag handlers
+        pullCord.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startY = e.clientY;
+            pullCord.classList.add('pulling');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaY = e.clientY - startY;
+                if (deltaY > 20) {
+                    isDragging = false;
+                    pullCord.classList.remove('pulling');
+                    toggleLamp();
+                }
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                pullCord.classList.remove('pulling');
+            }
+        });
+
+        // Touch drag handlers for mobile
+        pullCord.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startY = e.touches[0].clientY;
+            pullCord.classList.add('pulling');
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                const deltaY = e.touches[0].clientY - startY;
+                if (deltaY > 20) {
+                    isDragging = false;
+                    pullCord.classList.remove('pulling');
+                    toggleLamp();
+                }
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            if (isDragging) {
+                isDragging = false;
+                pullCord.classList.remove('pulling');
+            }
+        });
+
+        // Form submission handler
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (isLampOn) {
+                alert('Login functionality would be processed here!');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Coffee Machine Animation</title>
+<style>
+body {
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.container {
+    position: relative;
+    width: 220px;
+}
+
+
+.coffee-header {
+    width: 220px;
+    height: 70px;
+    background: #3b3b3b;
+    border-radius: 10px 10px 5px 5px;
+    position: relative;
+}
+
+.coffee-header__buttons {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+.coffee-header__buttons div {
+    width: 12px;
+    height: 12px;
+    background: #d1d1d1;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.coffee-header__display {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: 50px;
+    height: 14px;
+    background: #7ad3ff;
+    border-radius: 4px;
+}
+
+.coffee-header__details {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 6px;
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+
+.coffee-medium {
+    width: 200px;
+    height: 180px;
+    background: #e5e5e5;
+    margin: 0 auto;
+    border-radius: 0 0 10px 10px;
+    position: relative;
+}
+
+
+.coffee-medium__exit {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 12px;
+    background: #2f2f2f;
+    border-radius: 0 0 6px 6px;
+}
+
+.coffee-medium__arm {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 20px;
+    background: #2f2f2f;
+}
+
+
+.coffee-medium__liquid {
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 0; 
+    background: #6f4e37; 
+    display: block;
+    transition: height 3s ease-in-out; 
+}
+
+
+.coffee-medium__cup {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 45px;
+    background: #ffffff;
+    border-radius: 0 0 8px 8px;
+    border: 2px solid #ccc;
+}
+
+.coffee-medium__cup::after {
+    content: "";
+    position: absolute;
+    right: -12px;
+    top: 10px;
+    width: 16px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.coffee-medium__smoke {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    width: 8px;
+    height: 20px;
+    background: rgba(200,200,200,0.6);
+    border-radius: 50%;
+    animation: smoke 3s infinite;
+}
+
+.coffee-medium__smoke-one { margin-left: -15px; animation-delay: 0s; }
+.coffee-medium__smoke-two { margin-left: -5px; animation-delay: .5s; }
+.coffee-medium__smoke-three { margin-left: 5px; animation-delay: 1s; }
+.coffee-medium__smoke-for { margin-left: 15px; animation-delay: 1.5s; }
+
+@keyframes smoke {
+    0% { opacity: 0; transform: translateY(0); }
+    20% { opacity: .6; }
+    100% { opacity: 0; transform: translateY(-40px); }
+}
+
+
+.coffee-footer {
+    width: 220px;
+    height: 15px;
+    background: #3b3b3b;
+    border-radius: 0 0 10px 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="coffee-header">
+        <div class="coffee-header__buttons">
+            <div id="start"></div>
+            <div id="stop"></div>
+            <div></div>
+        </div>
+        <div class="coffee-header__display"></div>
+        <div class="coffee-header__details"></div>
+    </div>
+
+    <div class="coffee-medium">
+        <div class="coffee-medium__exit"></div>
+        <div class="coffee-medium__arm"></div>
+        <div class="coffee-medium__liquid"></div>
+
+        <div class="coffee-medium__smoke coffee-medium__smoke-one"></div>
+        <div class="coffee-medium__smoke coffee-medium__smoke-two"></div>
+        <div class="coffee-medium__smoke coffee-medium__smoke-three"></div>
+        <div class="coffee-medium__smoke coffee-medium__smoke-for"></div>
+
+        <div class="coffee-medium__cup"></div>
+    </div>
+
+    <div class="coffee-footer"></div>
+
+</div>
+
+<script>
+const liquid = document.querySelector('.coffee-medium__liquid');
+const startBtn = document.getElementById('start');
+const stopBtn = document.getElementById('stop');
+
+
+startBtn.addEventListener('click', () => {
+    liquid.style.height = '80px';
+});
+
+stopBtn.addEventListener('click', () => {
+    liquid.style.height = '0';
+});
+</script>
+
+</body>
+</html>

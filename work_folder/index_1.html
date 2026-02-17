@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+        body{
+            background-image: url('tree.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            
+        }
+        .login{
+            background: #00B7B5;
+            opacity: 0.7;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            width: 35%;
+            height: max-content;
+            /* text-align: center; */
+            display: flex;
+            flex-direction: column;
+        }
+        .m4{
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: medium;
+            margin-bottom: 15px;
+        }
+        #Signup{
+            color: #236a24;
+            cursor: pointer;
+        }
+        #Button{
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: aqua;
+            color: black;
+            font-weight: 700;
+            font-size: large;
+            cursor: pointer;
+        }
+        h2{
+            color: rgb(255, 195, 84);
+            font-weight: 800;
+            text-align: center;
+            font-size: xx-large;
+        }
+        .user-label{
+            text-align: left;
+        }
+        input[type="text"]{
+            margin: 10px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: rgb(0,0, 0,0.63);
+            box-shadow: 0 0 15px rgb(225,225, 225,0.2);
+            color: white;
+        }
+        input[type='text']:focus{
+                background-color: #7edae434;
+
+            }
+
+        input[type="text"]::placeholder{
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        input[type='Button']:hover{
+                background-color:#00a5dcc5 ;
+                transform: scale(1.06);
+        }
+        input[type='Button']{
+                width: 100%;
+                border: none;
+                padding: 8px 10px;
+                border-radius: 10px;
+                cursor: pointer;
+        }
+         input[type="password"]{
+             margin: 10px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: rgb(0,0, 0,0.63);
+            box-shadow: 0 0 15px rgb(225,225, 225,0.2);
+            color: white;
+         }
+         input[type='password']:focus{
+                background-color: #7edae434;
+
+            }
+            p{
+                text-align: center;
+            }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h2>Sign In</h2>
+        <label class="user-label" for="">Enter your Username</label>
+        <input type="text" placeholder="Username">
+        <label for="">Enter Your Password</label>
+        <input type="password" placeholder="Password">
+
+        <div class="M4">
+            <p id="Forgot_password">Forgot Password</p>
+            <p id="Signup">Signup</p>
+
+        </div>
+
+        <div>
+            <input id="button" type="button" name="submit" value="login" id="">
+        </div>
+
+    </div>
+
+   
+</body>
+</html>

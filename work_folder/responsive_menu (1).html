@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Responsive Menue</title>
+     <style>
+          *{
+               margin: 0;
+               padding: 0;
+               box-sizing: border-box;
+          }
+          header{
+               width:100%;
+               background-color: rgb(255, 255, 255);
+               box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+          }
+          .header-container{
+               max-width: 1200px;
+               padding: 0px 20px;
+               margin: 0 auto;
+          }
+          .top-bar{
+               background-color: #c54f2f;
+               color:#48d20c;
+               text-align: center;
+               padding: 5px 0px;
+               
+          }
+          .navbar{
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+               height: 80px;
+          }
+          .nav-links{
+               display: flex;
+               list-style: none;
+          }
+          .nav-links li{
+               margin-left: 20px;
+          }
+          .nav-links a{
+               text-decoration: none;
+               color: #000;
+               font-size: 20px;
+               transition: color 0.3s ease;
+               position: relative;
+          }
+          .nav-links a::after{
+              content: "";
+              position:absolute;
+              left: 0;
+              bottom: 0;
+              width:0%;
+              height: 2px;
+              background-color: #1dc1de;
+              transition: width 0.3s ease;
+          }
+          .nav-links a:hover::after{
+               width: 100%;
+          }
+          .nav-links a:hover{
+               color:#1dc1de;
+          }
+          .logo{
+               font-size: 35px;
+               color: #1dc1de;
+               font-weight: bold;
+          }
+          .logo:hover{
+                transition: 2s ease;
+                  transform: scale(1.10);
+                  color: rgb(49, 94, 218);
+                  cursor: pointer;
+          }
+          .cta-btn{
+               background-color: #1dc1de;
+               color: #fff;
+               padding: 8px 16px;
+               font-weight: bold;
+               text-decoration: none;
+               border-radius: 25px;
+               transition:background-color 0.3s ease;
+          }
+          .cta-btn:hover{
+               background-color:#d09b15;
+               transform: scale(1.05);
+          }
+          .hamburger{
+               display: none;
+          }
+          @media (max-width : 768px){
+               .nav-links{
+                    display: none;
+                    flex-direction: column;
+                    width: 100%;
+                    background-color: #444;
+                    position: absolute;
+                    top: 80px;
+                    left:0;
+               }
+               .nav-links li{
+                    margin: 10px 0;
+                    text-align: center;
+               }
+               .nav-links a{
+                    color:#fff;
+               }
+               .cta-btn{
+                    display: none;  
+               }
+               .hamburger{
+                    display: block;
+                    font-size: 20px;
+               }
+               .nav-links.active{
+                   display: flex;
+               }
+          }
+         
+
+          
+     </style>
+</head>
+<body>
+     <header>
+          <div class="top-bar">
+               <p><span>01720511165</span>, <span>ruhanpro40@gmail.com</span></p>
+          </div>
+          <div class="header-container"> 
+               <nav class="navbar">
+                    <div class="logo">MyLogo</div>
+                    <ul class="nav-links">
+                         <li><a href="index.html">Home</a></li>
+                         <li><a href="#">About</a></li>
+                         <li><a href="#">Contact</a></li>
+                         <li><a href="#">Blog</a></li>
+                         <li><a href="#">Faq</a></li>
+                    </ul>
+                    <a href="" class="cta-btn">Get Started</a>
+                    <div class="hamburger">&#9776;</div>
+               </nav>
+          </div>
+     </header>
+ <script>
+     // Select elements
+     const hamburger = document.querySelector('.hamburger');
+     const navLinks = document.querySelector('.nav-links');
+     // Toggle menu on hamburger click
+     hamburger.addEventListener('click', () => {
+          navLinks.classList.toggle('active');
+     });
+</script>    
+
+</body>
+</html>

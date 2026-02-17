@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card - Ruhan</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #c6c3c3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .profile-card {
+            width: 320px;
+            height: 420px;
+            background-color: #0f1c2d;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgb(27, 179, 222);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.4s ease;
+        }
+
+        
+        .profile-image:hover {
+            transform: scale(1.15);
+        }
+
+        
+        .profile-image::before {
+            content: "";
+            position: absolute;
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+            border: 3px solid #4fd1ff;
+            box-shadow: 0 0 15px rgba(79, 209, 255, 0.6);
+        }
+
+        
+        .profile-image img {
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            object-fit: cover;
+            z-index: 2;
+        }
+
+        .profile-name {
+            font-size: 22px;
+            color: #2bc6ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .profile-description {
+            font-size: 14px;
+            color: #bfc9d6;
+            line-height: 1.5;
+            margin-bottom: 35px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon i {
+            font-size: 18px;
+            color: #4fd1ff;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.15);
+        }
+
+        .social-icon.twitter:hover {
+            box-shadow: 0 0 15px rgb(29, 160, 242);
+        }
+
+        .social-icon.twitter:hover i {
+            color: #1da1f2;
+        }
+
+        .social-icon.facebook:hover {
+            box-shadow: 0 0 15px rgba(105, 255, 36, 0.85);
+        }
+
+        .social-icon.facebook:hover i {
+            color: #18a6f2;
+        }
+
+        .social-icon.instagram:hover {
+            box-shadow: 0 0 20px rgba(255, 122, 24, 0.8);
+        }
+
+        .social-icon.instagram:hover i {
+            color: #ff7a18;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-card">
+    <div class="profile-image">
+        <img src="ruhan.png" alt="Ruhan">
+    </div>
+
+    <h2 class="profile-name">Ruhan</h2>
+
+    <p class="profile-description">
+        Creative designer who loves clean layouts, thoughtful details, and building
+        simple experiences that feel natural and engaging.
+    </p>
+
+    <div class="social-icons">
+        <div class="social-icon twitter"><i class="fab fa-twitter"></i></div>
+        <div class="social-icon facebook"><i class="fab fa-facebook-f"></i></div>
+        <div class="social-icon instagram"><i class="fab fa-instagram"></i></div>
+    </div>
+</div>
+
+</body>
+</html>

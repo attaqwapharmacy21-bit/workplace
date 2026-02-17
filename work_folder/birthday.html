@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Moment Just For You</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Dynamic Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            transition: background 3s ease;
+            z-index: 0;
+        }
+
+        .background.celebration {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(1px);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Scene Container */
+        .scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+
+        .scene.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Scene 1: Opening Text */
+        .opening-text {
+            font-size: 42px;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            padding: 0 40px;
+            line-height: 1.6;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+            animation: textBreathe 4s ease-in-out infinite;
+        }
+
+        @keyframes textBreathe {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.02); opacity: 1; }
+        }
+
+        /* Scene 2: Gift Container */
+        .gift-container {
+            position: relative;
+            perspective: 1200px;
+            cursor: pointer;
+        }
+
+        .gift-box {
+            width: 280px;
+            height: 280px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: giftFloat 6s ease-in-out infinite;
+            transition: transform 0.5s ease;
+        }
+
+        .gift-container:hover .gift-box {
+            transform: translateY(-20px) scale(1.05);
+        }
+
+        @keyframes giftFloat {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-30px) rotateY(10deg); }
+        }
+
+        .gift-card {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.9) 0%, rgba(255, 193, 7, 0.9) 100%);
+            border-radius: 30px;
+            position: relative;
+            box-shadow: 
+                0 30px 90px rgba(255, 215, 0, 0.4),
+                0 0 80px rgba(255, 215, 0, 0.2),
+                inset 0 0 80px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        /* Inner glow effect */
+        .gift-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Gift shimmer */
+        .gift-card::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            animation: shimmer 6s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        .gift-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            z-index: 10;
+        }
+
+        .gift-prompt {
+            margin-top: 50px;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.5);
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Opening Animation */
+        .gift-box.opening {
+            animation: giftOpen 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes giftOpen {
+            0% { transform: scale(1) rotateY(0deg); }
+            50% { transform: scale(1.2) rotateY(180deg); }
+            100% { transform: scale(0) rotateY(360deg); opacity: 0; }
+        }
+
+        /* Flash Transition */
+        .flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, white, transparent);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .flash-overlay.active {
+            animation: flash 1.5s ease-out forwards;
+        }
+
+        @keyframes flash {
+            0% { opacity: 0; transform: scale(0); }
+            30% { opacity: 1; transform: scale(2); }
+            100% { opacity: 0; transform: scale(4); }
+        }
+
+        /* Scene 4: Birthday Message - Premium Hero Moment */
+        .birthday-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .birthday-title {
+            font-size: 90px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 12px;
+            margin-bottom: 30px;
+            text-shadow: 
+                0 0 40px rgba(255, 215, 0, 0.6),
+                0 0 80px rgba(255, 182, 193, 0.4),
+                0 8px 40px rgba(0, 0, 0, 0.4);
+            animation: titlePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 40px rgba(255, 215, 0, 0.6),
+                    0 0 80px rgba(255, 182, 193, 0.4),
+                    0 8px 40px rgba(0, 0, 0, 0.4);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 60px rgba(255, 215, 0, 0.8),
+                    0 0 100px rgba(255, 182, 193, 0.6),
+                    0 8px 40px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        .word-happy, .word-birthday {
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .word-happy {
+            margin-right: 30px;
+        }
+
+        .birthday-letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateZ(-200px) rotateX(-90deg) scale(0.5);
+            filter: blur(10px);
+        }
+
+        /* HAPPY letters - emerge from depth */
+        .birthday-letter.happy-letter {
+            animation: letterFromDepth 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes letterFromDepth {
+            0% {
+                opacity: 0;
+                transform: translateZ(-200px) rotateX(-90deg) scale(0.5);
+                filter: blur(10px);
+            }
+            60% {
+                opacity: 0.6;
+                filter: blur(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateZ(0) rotateX(0deg) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        /* BIRTHDAY letters - slide in from directions with snap */
+        .birthday-letter.birthday-letter-b {
+            animation: letterSlideIn 1s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+            animation-delay: 0s;
+        }
+
+        .birthday-letter:not(.birthday-letter-b) {
+            animation: letterSlideInAlt 1s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes letterSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px) translateY(-50px) rotate(-15deg) scale(0.6);
+                filter: blur(8px);
+            }
+            70% {
+                opacity: 0.8;
+                transform: translateX(5px) translateY(2px) rotate(2deg) scale(1.05);
+                filter: blur(2px);
+            }
+            85% {
+                transform: translateX(-3px) translateY(-1px) rotate(-1deg) scale(0.98);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes letterSlideInAlt {
+            0% {
+                opacity: 0;
+                transform: translateX(100px) translateY(50px) rotate(15deg) scale(0.6);
+                filter: blur(8px);
+            }
+            70% {
+                opacity: 0.8;
+                transform: translateX(-5px) translateY(-2px) rotate(-2deg) scale(1.05);
+                filter: blur(2px);
+            }
+            85% {
+                transform: translateX(3px) translateY(1px) rotate(1deg) scale(0.98);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        /* Glow trail effect */
+        .birthday-letter::after {
+            content: attr(data-letter);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: rgba(255, 215, 0, 0.5);
+            filter: blur(8px);
+            z-index: -1;
+            opacity: 0;
+        }
+
+        .birthday-letter.happy-letter::after {
+            animation: glowTrail 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes glowTrail {
+            0%, 30% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .friend-subtitle {
+            font-size: 52px;
+            color: #ffe4f5;
+            margin-top: 40px;
+            opacity: 0;
+            text-shadow: 0 0 20px rgba(255, 228, 245, 0.6);
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .friend-subtitle.show {
+            animation: subtitleFade 1.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes subtitleFade {
+            0% { 
+                opacity: 0; 
+                transform: translateY(40px); 
+                filter: blur(5px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+                filter: blur(0);
+            }
+        }
+
+        /* Scene 5: Final Message */
+        .final-message {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 800px;
+            text-align: center;
+            line-height: 1.8;
+            padding: 0 30px;
+            margin-top: 60px;
+            opacity: 0;
+            font-style: italic;
+            font-weight: 300;
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .final-message.show {
+            animation: messageFade 2s 0.5s ease forwards;
+        }
+
+        @keyframes messageFade {
+            0% { opacity: 0; transform: translateY(40px); filter: blur(5px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* Sparkle Effects */
+        .sparkle {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .sparkle.floating {
+            animation: sparkleFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes sparkleFloat {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-60px) scale(1);
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+        }
+
+        /* Replay Button */
+        .replay-button {
+            margin-top: 60px;
+            padding: 15px 40px;
+            font-size: 18px;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            opacity: 0;
+            font-family: 'Georgia', serif;
+            letter-spacing: 1px;
+        }
+
+        .replay-button.show {
+            animation: buttonFade 1.5s 2s ease forwards;
+        }
+
+        @keyframes buttonFade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .replay-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Scene 6: Personalized Birthday Card */
+        .card-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 200;
+            transition: opacity 1.5s ease;
+        }
+
+        .card-scene.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .birthday-card {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffecd2 100%);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 
+                0 40px 100px rgba(255, 154, 158, 0.4),
+                0 0 60px rgba(254, 207, 239, 0.3);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .birthday-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: cardShimmer 6s infinite;
+        }
+
+        @keyframes cardShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .card-date {
+            font-size: 24px;
+            color: #d63384;
+            font-weight: 600;
+            margin-bottom: 30px;
+            opacity: 0;
+            text-shadow: 0 2px 10px rgba(214, 51, 132, 0.3);
+        }
+
+        .card-date.show {
+            animation: dateSlideDown 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes dateSlideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-image-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 50px rgba(214, 51, 132, 0.3);
+            opacity: 0;
+            position: relative;
+        }
+
+        .card-image-container.show {
+            animation: imagePopIn 1s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes imagePopIn {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-name {
+            font-size: 42px;
+            font-weight: bold;
+            color: #d63384;
+            margin-bottom: 30px;
+            opacity: 0;
+            text-shadow: 0 3px 15px rgba(214, 51, 132, 0.3);
+            font-family: 'Georgia', serif;
+        }
+
+        .card-name.show {
+            animation: nameSlideUp 0.8s 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes nameSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, #d63384 0%, #e91e63 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.4);
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .card-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .card-button.show {
+            animation: buttonBounceIn 1s 1.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes buttonBounceIn {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.8);
+            }
+            60% {
+                transform: translateY(-10px) scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .card-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(214, 51, 132, 0.6);
+        }
+
+        .card-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Decorative stars and hearts */
+        .card-decoration {
+            position: absolute;
+            font-size: 28px;
+            opacity: 0.6;
+            animation: decorationFloat 4s ease-in-out infinite;
+        }
+
+        .card-decoration:nth-child(1) {
+            top: 10%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .card-decoration:nth-child(2) {
+            top: 15%;
+            right: 8%;
+            animation-delay: 0.5s;
+        }
+
+        .card-decoration:nth-child(3) {
+            bottom: 15%;
+            left: 10%;
+            animation-delay: 1s;
+        }
+
+        .card-decoration:nth-child(4) {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes decorationFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+                opacity: 1;
+            }
+        }
+                    @media (max-width: 768px) {
+            .opening-text {
+                font-size: 28px;
+                padding: 0 30px;
+            }
+
+            .gift-box {
+                width: 220px;
+                height: 220px;
+            }
+
+            .gift-icon {
+                font-size: 60px;
+            }
+
+            .gift-prompt {
+                font-size: 20px;
+            }
+
+            .birthday-title {
+                font-size: 48px;
+                letter-spacing: 6px;
+            }
+
+            .word-happy {
+                margin-right: 15px;
+            }
+
+            .friend-subtitle {
+                font-size: 32px;
+                margin-top: 30px;
+            }
+
+            .final-message {
+                font-size: 20px;
+                padding: 0 25px;
+            }
+
+            .replay-button {
+                font-size: 16px;
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="background" id="background"></div>
+
+    <!-- Floating Particles Container -->
+    <div id="particlesContainer"></div>
+
+    <!-- Scene 1: Opening Text -->
+    <div class="scene active" id="scene1">
+        <div class="opening-text">This moment is just for you…</div>
+    </div>
+
+    <!-- Scene 2: Gift Emerges -->
+    <div class="scene" id="scene2">
+        <div class="gift-container" id="giftContainer">
+            <div class="gift-box" id="giftBox">
+                <div class="gift-card">
+                    <div class="gift-icon">🎁</div>
+                </div>
+            </div>
+        </div>
+        <div class="gift-prompt">Click to open your gift</div>
+    </div>
+
+    <!-- Flash Transition -->
+    <div class="flash-overlay" id="flashOverlay"></div>
+
+    <!-- Scene 4 & 5: Birthday Message -->
+    <div class="scene" id="scene3">
+        <div class="birthday-container">
+            <div class="birthday-title" id="birthdayTitle"></div>
+            <div class="friend-subtitle" id="friendSubtitle">My Friend 🎉</div>
+            <div class="final-message" id="finalMessage">
+                May your life be filled with joy, success, and unforgettable moments.
+            </div>
+            <button class="replay-button" id="replayButton">✨ Experience Again</button>
+        </div>
+    </div>
+
+    <!-- Scene 6: Personalized Birthday Card -->
+    <div class="card-scene" id="cardScene">
+        <div class="birthday-card">
+            <div class="card-decoration">⭐</div>
+            <div class="card-decoration">💖</div>
+            <div class="card-decoration">✨</div>
+            <div class="card-decoration">💕</div>
+            
+            <div class="card-date" id="cardDate">3 August ...</div>
+            
+            <div class="card-image-container" id="cardImageContainer">
+                <img src="100.jpg" 
+                     alt="Birthday Person" 
+                     class="card-image" 
+                     id="cardImage">
+            </div>
+            
+            <div class="card-name" id="cardName">Jerin</div>
+            
+            <button class="card-button" id="cardButton">
+                <span id="cardButtonText">Click here Shizuko_</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // CUSTOMIZABLE VARIABLES - EDIT THESE!
+        // ========================================
+        const BIRTHDAY_DATE = "8 May ..."; // Change this to any date
+        const PERSON_NAME = "Shizuko_"; // Change this to the birthday person's name
+        const PERSON_IMAGE = "https://images.unsplash.com/photo-1514315384763-ba401779410f?w=400&h=400&fit=crop"; // Change this to any image URL
+        
+        // ========================================
+        // State management
+        let currentScene = 1;
+        const background = document.getElementById('background');
+        const scene1 = document.getElementById('scene1');
+        const scene2 = document.getElementById('scene2');
+        const scene3 = document.getElementById('scene3');
+        const cardScene = document.getElementById('cardScene');
+        const giftContainer = document.getElementById('giftContainer');
+        const giftBox = document.getElementById('giftBox');
+        const flashOverlay = document.getElementById('flashOverlay');
+        const birthdayTitle = document.getElementById('birthdayTitle');
+        const friendSubtitle = document.getElementById('friendSubtitle');
+        const finalMessage = document.getElementById('finalMessage');
+        const replayButton = document.getElementById('replayButton');
+        
+        // Card elements
+        const cardDate = document.getElementById('cardDate');
+        const cardImage = document.getElementById('cardImage');
+        const cardImageContainer = document.getElementById('cardImageContainer');
+        const cardName = document.getElementById('cardName');
+        const cardButton = document.getElementById('cardButton');
+        const cardButtonText = document.getElementById('cardButtonText');
+
+        // Initialize card with custom values
+        function initializeCard() {
+            cardDate.textContent = BIRTHDAY_DATE;
+            cardName.textContent = PERSON_NAME;
+            cardImage.src = PERSON_IMAGE;
+            cardButtonText.textContent = `Click here ${PERSON_NAME}`;
+        }
+
+        // Animate card elements in sequence
+        function animateCard() {
+            setTimeout(() => cardDate.classList.add('show'), 100);
+            setTimeout(() => cardImageContainer.classList.add('show'), 400);
+            setTimeout(() => cardName.classList.add('show'), 900);
+            setTimeout(() => cardButton.classList.add('show'), 1400);
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            container.innerHTML = ''; // Clear existing particles
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                const duration = Math.random() * 20 + 15;
+                const delay = Math.random() * 5;
+                const xOffset = (Math.random() - 0.5) * 200;
+                const yOffset = (Math.random() - 0.5) * 200;
+                
+                particle.style.animation = `particleFloat${i} ${duration}s ${delay}s ease-in-out infinite`;
+                
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes particleFloat${i} {
+                        0%, 100% {
+                            transform: translate(0, 0);
+                            opacity: 0;
+                        }
+                        25% {
+                            opacity: 0.8;
+                        }
+                        50% {
+                            transform: translate(${xOffset}px, ${yOffset}px);
+                            opacity: 1;
+                        }
+                        75% {
+                            opacity: 0.8;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#c44569', '#f8b500', '#4bcffa', '#ffd700', '#ff6348'];
+            
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-20px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = Math.random() * 8 + 4 + 'px';
+                    confetti.style.height = Math.random() * 8 + 4 + 'px';
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.opacity = '0.8';
+                    
+                    const duration = Math.random() * 3 + 2.5;
+                    const rotation = Math.random() * 360;
+                    const drift = (Math.random() - 0.5) * 100;
+                    
+                    confetti.style.animation = `confettiFall${i} ${duration}s ease-out forwards`;
+                    
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes confettiFall${i} {
+                            to {
+                                transform: translateY(100vh) translateX(${drift}px) rotate(${rotation}deg);
+                                opacity: 0;
+                            }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), duration * 1000);
+                }, i * 20);
+            }
+        }
+
+        // Create sparkles
+        function createSparkles() {
+            const sparkles = ['✨', '⭐', '💫', '🌟'];
+            const positions = [
+                { left: '15%', top: '20%' },
+                { left: '85%', top: '25%' },
+                { left: '10%', top: '70%' },
+                { left: '90%', top: '65%' },
+                { left: '25%', top: '15%' },
+                { left: '75%', top: '80%' }
+            ];
+            
+            positions.forEach((pos, i) => {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle floating';
+                    sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                    sparkle.style.left = pos.left;
+                    sparkle.style.top = pos.top;
+                    sparkle.style.animationDelay = (i * 0.3) + 's';
+                    document.body.appendChild(sparkle);
+                }, i * 300);
+            });
+        }
+
+        // Animate birthday text with premium reveal
+        function animateBirthdayText() {
+            // Add screen darkening overlay for focus
+            const darkOverlay = document.createElement('div');
+            darkOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: 5;
+                pointer-events: none;
+                animation: darkFocus 0.5s ease-out forwards;
+            `;
+            const darkStyle = document.createElement('style');
+            darkStyle.textContent = `
+                @keyframes darkFocus {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(darkStyle);
+            document.body.appendChild(darkOverlay);
+
+            // Create heartbeat background pulse
+            const heartbeat = document.createElement('div');
+            heartbeat.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                width: 300px;
+                height: 300px;
+                background: radial-gradient(circle, rgba(255, 215, 0, 0.15), transparent);
+                border-radius: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                z-index: 6;
+                pointer-events: none;
+                animation: heartbeatPulse 2s ease-in-out infinite;
+            `;
+            const heartbeatStyle = document.createElement('style');
+            heartbeatStyle.textContent = `
+                @keyframes heartbeatPulse {
+                    0%, 100% { 
+                        transform: translate(-50%, -50%) scale(1);
+                        opacity: 0.3;
+                    }
+                    50% { 
+                        transform: translate(-50%, -50%) scale(1.5);
+                        opacity: 0.6;
+                    }
+                }
+            `;
+            document.head.appendChild(heartbeatStyle);
+            document.body.appendChild(heartbeat);
+
+            // Create HAPPY
+            const happyWord = document.createElement('span');
+            happyWord.className = 'word-happy';
+            birthdayTitle.appendChild(happyWord);
+
+            const happy = "HAPPY";
+            happy.split('').forEach((letter, i) => {
+                const span = document.createElement('span');
+                span.className = 'birthday-letter happy-letter';
+                span.setAttribute('data-letter', letter);
+                span.textContent = letter;
+                span.style.animationDelay = (i * 0.15) + 's';
+                happyWord.appendChild(span);
+            });
+
+            // Wait for HAPPY to complete, then show BIRTHDAY
+            const birthdayDelay = 1.2; // Duration of HAPPY animation
+            
+            setTimeout(() => {
+                // Background light expansion
+                const lightExpand = document.createElement('div');
+                lightExpand.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    width: 100px;
+                    height: 100px;
+                    background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent);
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                    z-index: 6;
+                    pointer-events: none;
+                    animation: lightExpansion 0.8s ease-out forwards;
+                `;
+                const lightStyle = document.createElement('style');
+                lightStyle.textContent = `
+                    @keyframes lightExpansion {
+                        from { 
+                            transform: translate(-50%, -50%) scale(1);
+                            opacity: 0.8;
+                        }
+                        to { 
+                            transform: translate(-50%, -50%) scale(4);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(lightStyle);
+                document.body.appendChild(lightExpand);
+                setTimeout(() => lightExpand.remove(), 800);
+            }, birthdayDelay * 1000);
+
+            setTimeout(() => {
+                // Add line break for mobile
+                const lineBreak = document.createElement('br');
+                birthdayTitle.appendChild(lineBreak);
+
+                // Create BIRTHDAY
+                const birthdayWord = document.createElement('span');
+                birthdayWord.className = 'word-birthday';
+                birthdayTitle.appendChild(birthdayWord);
+
+                const birthday = "BIRTHDAY";
+                birthday.split('').forEach((letter, i) => {
+                    const span = document.createElement('span');
+                    span.className = `birthday-letter ${i === 0 ? 'birthday-letter-b' : ''}`;
+                    span.setAttribute('data-letter', letter);
+                    span.textContent = letter;
+                    span.style.animationDelay = (i * 0.08) + 's';
+                    birthdayWord.appendChild(span);
+                });
+
+                // Remove dark overlay after animation settles
+                setTimeout(() => {
+                    darkOverlay.style.animation = 'darkFocus 0.8s ease-out reverse forwards';
+                    setTimeout(() => darkOverlay.remove(), 800);
+                }, 1500);
+            }, (birthdayDelay + 0.4) * 1000);
+        }
+
+        // Scene transitions
+        function transitionToScene(sceneNumber) {
+            currentScene = sceneNumber;
+            
+            // Hide all scenes
+            [scene1, scene2, scene3].forEach(s => s.classList.remove('active'));
+            
+            // Show target scene
+            switch(sceneNumber) {
+                case 1:
+                    scene1.classList.add('active');
+                    break;
+                case 2:
+                    scene2.classList.add('active');
+                    break;
+                case 3:
+                    scene3.classList.add('active');
+                    break;
+            }
+        }
+
+        // Main animation sequence
+        function startExperience() {
+            // Clear any existing content
+            birthdayTitle.innerHTML = '';
+            
+            // Scene 1: Opening text (4 seconds)
+            createParticles();
+            
+            setTimeout(() => {
+                transitionToScene(2);
+            }, 4000);
+        }
+
+        // Gift opening handler
+        giftContainer.addEventListener('click', function() {
+            giftBox.classList.add('opening');
+            
+            // Flash transition
+            setTimeout(() => {
+                flashOverlay.classList.add('active');
+            }, 800);
+            
+            // Change background
+            setTimeout(() => {
+                background.classList.add('celebration');
+            }, 1000);
+            
+            // Start confetti
+            setTimeout(() => {
+                createConfetti();
+            }, 1200);
+            
+            // Hide scene 2, show scene 3
+            setTimeout(() => {
+                scene2.classList.remove('active');
+                scene3.classList.add('active');
+            }, 1500);
+            
+            // Animate birthday text with premium reveal
+            setTimeout(() => {
+                animateBirthdayText();
+            }, 1800);
+            
+            // Show subtitle - adjusted timing for new animation
+            setTimeout(() => {
+                friendSubtitle.classList.add('show');
+            }, 4500);
+            
+            // Show final message
+            setTimeout(() => {
+                finalMessage.classList.add('show');
+                createSparkles();
+            }, 6000);
+            
+            // Show replay button
+            setTimeout(() => {
+                replayButton.classList.add('show');
+            }, 7500);
+            
+            // Transition to personalized card after message
+            setTimeout(() => {
+                scene3.classList.remove('active');
+                cardScene.classList.add('active');
+                animateCard();
+            }, 10000);
+        });
+
+        // Replay button handler
+        replayButton.addEventListener('click', function() {
+            // Reset all elements
+            giftBox.classList.remove('opening');
+            flashOverlay.classList.remove('active');
+            background.classList.remove('celebration');
+            friendSubtitle.classList.remove('show');
+            finalMessage.classList.remove('show');
+            replayButton.classList.remove('show');
+            
+            // Reset card elements
+            cardDate.classList.remove('show');
+            cardImageContainer.classList.remove('show');
+            cardName.classList.remove('show');
+            cardButton.classList.remove('show');
+            cardScene.classList.remove('active');
+            
+            // Clear sparkles
+            document.querySelectorAll('.sparkle').forEach(s => s.remove());
+            
+            // Reset to scene 1
+            transitionToScene(1);
+            
+            // Restart experience
+            setTimeout(() => {
+                startExperience();
+            }, 500);
+        });
+
+        // Card button click handler
+        cardButton.addEventListener('click', function() {
+            alert(`🎉 Happy Birthday ${persone_name}! 🎂\n\nHave an amazing day filled with joy and celebration!`);
+        });
+
+        // Start the experience on page load
+        window.addEventListener('load', () => {
+            initializeCard();
+            startExperience();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminPro Dashboard</title>
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --white: #ffffff;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --sidebar-width: 260px;
+            --navbar-height: 70px;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* ===== LAYOUT GRID ===== */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            grid-template-rows: var(--navbar-height) 1fr;
+            grid-template-areas:
+                "sidebar navbar"
+                "sidebar main";
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            grid-area: sidebar;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 2rem 0;
+            position: fixed;
+            width: var(--sidebar-width);
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 0 1.5rem 2rem;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 0.9rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1rem;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.1);
+            border-left-color: var(--white);
+        }
+
+        .menu-item.active {
+            background: rgba(255,255,255,0.2);
+            border-left-color: var(--white);
+            font-weight: 600;
+        }
+
+        .menu-icon {
+            font-size: 1.2rem;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            grid-area: navbar;
+            background: var(--white);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 25px;
+            width: 280px;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-600);
+        }
+
+        .profile {
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .profile-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--gray-100);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            grid-area: main;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.8rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            border-left: 4px solid;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .stat-card.primary { border-left-color: var(--primary); }
+        .stat-card.success { border-left-color: var(--success); }
+        .stat-card.warning { border-left-color: var(--warning); }
+        .stat-card.danger { border-left-color: var(--danger); }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .stat-title {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            color: var(--success);
+        }
+
+        /* ===== TABLE ===== */
+        .table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-top: 1.5rem;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .table-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--gray-100);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        tbody tr {
+            transition: var(--transition);
+        }
+
+        tbody tr:hover {
+            background: var(--gray-100);
+        }
+
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge.success { background: #d1fae5; color: var(--success); }
+        .badge.warning { background: #fef3c7; color: var(--warning); }
+        .badge.danger { background: #fee2e2; color: var(--danger); }
+        .badge.info { background: #dbeafe; color: var(--info); }
+
+        /* ===== FORMS ===== */
+        .form-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-toggle {
+            display: none;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "navbar"
+                    "main";
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
+            }
+
+            .search-box input {
+                width: 150px;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">AdminPro</div>
+            <ul class="menu" id="menu">
+                <li class="menu-item active" data-page="dashboard">
+                    <span class="menu-icon">📊</span>
+                    <span>Dashboard</span>
+                </li>
+                <li class="menu-item" data-page="users">
+                    <span class="menu-icon">👥</span>
+                    <span>Users</span>
+                </li>
+                <li class="menu-item" data-page="orders">
+                    <span class="menu-icon">🛒</span>
+                    <span>Orders</span>
+                </li>
+                <li class="menu-item" data-page="reports">
+                    <span class="menu-icon">📈</span>
+                    <span>Reports</span>
+                </li>
+                <li class="menu-item" data-page="settings">
+                    <span class="menu-icon">⚙️</span>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="mobile-toggle" id="mobileToggle">☰</button>
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+            </div>
+            <div class="navbar-right">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="profile">
+                    <div class="profile-avatar" id="profileAvatar">JD</div>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-item">Profile</div>
+                        <div class="dropdown-item">Settings</div>
+                        <div class="dropdown-item">Logout</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" id="mainContent">
+            <!-- Content will be dynamically loaded here -->
+        </main>
+    </div>
+
+    <script>
+        // ===== FAKE DATABASE =====
+        const database = {
+            users: [
+                { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active' },
+                { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User', status: 'Active' },
+                { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'User', status: 'Inactive' },
+                { id: 4, name: 'Alice Williams', email: 'alice@example.com', role: 'Editor', status: 'Active' },
+                { id: 5, name: 'Charlie Brown', email: 'charlie@example.com', role: 'User', status: 'Pending' }
+            ],
+            orders: [
+                { id: 1001, customer: 'John Doe', product: 'Laptop', amount: '$1299', status: 'Delivered' },
+                { id: 1002, customer: 'Jane Smith', product: 'Phone', amount: '$899', status: 'Pending' },
+                { id: 1003, customer: 'Bob Johnson', product: 'Tablet', amount: '$599', status: 'Shipped' },
+                { id: 1004, customer: 'Alice Williams', product: 'Headphones', amount: '$199', status: 'Delivered' },
+                { id: 1005, customer: 'Charlie Brown', product: 'Monitor', amount: '$399', status: 'Cancelled' }
+            ],
+            stats: {
+                totalUsers: 1284,
+                totalOrders: 856,
+                revenue: '$45,678',
+                activeUsers: 942
+            }
+        };
+
+        // ===== CONTENT TEMPLATES =====
+        const contentTemplates = {
+            dashboard: () => `
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Users</span>
+                            <span class="stat-icon">👥</span>
+                        </div>
+                        <div class="stat-value">${database.stats.totalUsers}</div>
+                        <div class="stat-change">↑ 12% from last month</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Orders</span>
+                            <span class="stat-icon">🛒</span>
+                        </div>
+                        <div class="stat-value">${database.stats.totalOrders}</div>
+                        <div class="stat-change">↑ 8% from last month</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <span class="stat-title">Revenue</span>
+                            <span class="stat-icon">💰</span>
+                        </div>
+                        <div class="stat-value">${database.stats.revenue}</div>
+                        <div class="stat-change">↑ 23% from last month</div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-header">
+                            <span class="stat-title">Active Users</span>
+                            <span class="stat-icon">✓</span>
+                        </div>
+                        <div class="stat-value">${database.stats.activeUsers}</div>
+                        <div class="stat-change">↑ 5% from last month</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Recent Users</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${database.users.map(user => `
+                                <tr>
+                                    <td>${user.id}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.role}</td>
+                                    <td><span class="badge ${getStatusClass(user.status)}">${user.status}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `,
+            users: () => `
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">User Management</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${database.users.map(user => `
+                                <tr>
+                                    <td>${user.id}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.role}</td>
+                                    <td><span class="badge ${getStatusClass(user.status)}">${user.status}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `,
+            orders: () => `
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Order Management</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${database.orders.map(order => `
+                                <tr>
+                                    <td>#${order.id}</td>
+                                    <td>${order.customer}</td>
+                                    <td>${order.product}</td>
+                                    <td>${order.amount}</td>
+                                    <td><span class="badge ${getOrderStatusClass(order.status)}">${order.status}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `,
+            reports: () => `
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-header">
+                            <span class="stat-title">Monthly Revenue</span>
+                            <span class="stat-icon">📊</span>
+                        </div>
+                        <div class="stat-value">$45,678</div>
+                        <div class="stat-change">↑ 23% vs last month</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <span class="stat-title">Conversion Rate</span>
+                            <span class="stat-icon">📈</span>
+                        </div>
+                        <div class="stat-value">3.24%</div>
+                        <div class="stat-change">↑ 0.4% vs last month</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <span class="stat-title">Avg. Order Value</span>
+                            <span class="stat-icon">💵</span>
+                        </div>
+                        <div class="stat-value">$53.42</div>
+                        <div class="stat-change">↑ 7% vs last month</div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-header">
+                            <span class="stat-title">Customer Retention</span>
+                            <span class="stat-icon">🔁</span>
+                        </div>
+                        <div class="stat-value">87%</div>
+                        <div class="stat-change">↑ 2% vs last month</div>
+                    </div>
+                </div>
+            `,
+            settings: () => `
+                <div class="form-container">
+                    <h2 style="margin-bottom: 1.5rem; color: var(--dark);">Account Settings</h2>
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" value="John Doe" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" value="john@example.com" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Company</label>
+                            <input type="text" class="form-input" value="AdminPro Inc." placeholder="Enter company name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" value="+1 234 567 8900" placeholder="Enter phone number">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Notifications</label>
+                            <select class="form-input">
+                                <option>All Notifications</option>
+                                <option>Important Only</option>
+                                <option>None</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            `
+        };
+
+        // ===== HELPER FUNCTIONS =====
+        function getStatusClass(status) {
+            const statusMap = {
+                'Active': 'success',
+                'Inactive': 'danger',
+                'Pending': 'warning'
+            };
+            return statusMap[status] || 'info';
+        }
+
+        function getOrderStatusClass(status) {
+            const statusMap = {
+                'Delivered': 'success',
+                'Pending': 'warning',
+                'Shipped': 'info',
+                'Cancelled': 'danger'
+            };
+            return statusMap[status] || 'info';
+        }
+
+        // ===== NAVIGATION SYSTEM =====
+        function loadPage(pageName) {
+            const mainContent = document.getElementById('mainContent');
+            const pageTitle = document.getElementById('pageTitle');
+            
+            // Update page title
+            pageTitle.textContent = pageName.charAt(0).toUpperCase() + pageName.slice(1);
+            
+            // Remove animation class
+            mainContent.style.animation = 'none';
+            
+            // Force reflow
+            void mainContent.offsetWidth;
+            
+            // Load new content
+            mainContent.innerHTML = contentTemplates[pageName]();
+            
+            // Re-add animation
+            mainContent.style.animation = '';
+            
+            // Update active menu item
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === pageName) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        // ===== EVENT LISTENERS =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load default page
+            loadPage('dashboard');
+
+            // Menu click events
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    loadPage(page);
+                });
+            });
+
+            // Mobile toggle
+            document.getElementById('mobileToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+
+            // Profile dropdown
+            document.getElementById('profileAvatar').addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('profileDropdown').classList.toggle('active');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                document.getElementById('profileDropdown').classList.remove('active');
+            });
+
+            // Prevent form submission in settings
+            document.addEventListener('submit', function(e) {
+                if (e.target.id === 'settingsForm') {
+                    e.preventDefault();
+                    alert('Settings saved successfully! (Demo)');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #7dd3c0 0%, #4db8a8 100%);
+            border-radius: 4px;
+        }
+
+        .logo-text {
+            color: #333;
+        }
+
+        .logo-text span {
+            color: #999;
+            font-weight: 400;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #0077b6;
+            border: 2px solid #0077b6;
+        }
+
+        .btn-primary {
+            background: #7dd3c0;
+            color: #333;
+        }
+
+        .btn-outline:hover {
+            background: #0077b6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #6bc4b0;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 60px 0;
+        }
+
+        .hero-content h1 {
+            font-size: 52px;
+            line-height: 1.2;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+        }
+
+        .hero-content h1 .highlight {
+            color: #0077b6;
+        }
+
+        .hero-content p {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 60px;
+        }
+
+        .stat-item h3 {
+            font-size: 36px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .stat-item h3.highlight {
+            color: #0077b6;
+        }
+
+        .stat-item p {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 400px;
+        }
+
+        .shape {
+            position: absolute;
+        }
+
+        .semi-circle {
+            width: 200px;
+            height: 200px;
+            background: #b8e6dc;
+            border-radius: 0 200px 200px 0;
+            right: 0;
+            top: 0;
+        }
+
+        .diamond {
+            width: 120px;
+            height: 120px;
+            background: #7dd3c0;
+            transform: rotate(45deg);
+            right: 180px;
+            top: 40px;
+        }
+
+        .rectangle {
+            width: 100px;
+            height: 100px;
+            background: #d4e8e3;
+            left: 80px;
+            top: 80px;
+        }
+
+        .square-outline {
+            width: 100px;
+            height: 100px;
+            border: 8px solid #0077b6;
+            left: 20px;
+            top: 120px;
+        }
+
+        .circle-large {
+            width: 140px;
+            height: 140px;
+            background: #003d5c;
+            border-radius: 50%;
+            left: 140px;
+            top: 160px;
+        }
+
+        .circle-medium {
+            width: 120px;
+            height: 120px;
+            background: #0088cc;
+            border-radius: 50%;
+            left: 60px;
+            bottom: 40px;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 100px solid #003d5c;
+            left: 180px;
+            bottom: 60px;
+        }
+
+        .quarter-circle-bottom-left {
+            width: 140px;
+            height: 140px;
+            background: #0088cc;
+            border-radius: 0 0 0 140px;
+            right: 0;
+            bottom: 0;
+        }
+
+        .quarter-circle-bottom-right {
+            width: 140px;
+            height: 140px;
+            background: #b8e6dc;
+            border-radius: 0 0 140px 0;
+            right: 140px;
+            bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .stats {
+                gap: 30px;
+            }
+
+            .hero-visual {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">Design<span>Academy</span></span>
+            </div>
+            <nav>
+                <a href="#" class="nav-link">Learn more</a>
+                <a href="#" class="btn btn-outline">Explore Course List</a>
+                <a href="#" class="btn btn-primary">Enroll Now</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Unleash Your Creativity with Top <span class="highlight">Design Courses</span></h1>
+                <p>Elevate your design skills to new heights with our curated selection of courses, designed to i
