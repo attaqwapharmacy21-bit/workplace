@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Grid Last Example</title>
+     <style>
+          *{
+
+               margin: 0;
+               padding: 0;
+               box-sizing: border-box;
+
+          }
+
+          body{
+
+               font-family: system-ui, sans-serif;
+               background-color: #f4f6f9;
+               line-height: 1.6;
+          }
+
+          .testimonial-grid{
+
+               display: grid;
+               gap:20px;
+               grid-template-areas: 
+                    "one"
+                    "two"
+                    "three"
+                    "four"
+                    "five";
+
+               padding: 30px;  
+               margin: 20px auto;   
+               width: min(95%,1250px);
+
+          }
+
+          .testimonial{
+
+               overflow: hidden;
+               min-height: 250px;
+               display: flex;
+               align-items: flex-end;
+               border-radius: 10px;
+
+          }
+
+          .testimonial:nth-child(1){grid-area: one;}
+          .testimonial:nth-child(2){grid-area: two;}
+          .testimonial:nth-child(3){grid-area: three;}
+          .testimonial:nth-child(4){grid-area: four;}
+          .testimonial:nth-child(5){grid-area: five;}
+
+
+           @media screen and (min-width:608px) {
+              
+               .testimonial-grid{
+
+                    grid-template-areas: 
+                         "one one"
+                         "two three"
+                         "five five"
+                         "four four";
+               }
+
+
+          }
+
+
+          @media screen and (min-width:1200px) {
+              
+               .testimonial-grid{
+
+                    grid-template-areas: 
+                         "one one two"
+                         "five five five"
+                         "three four four";
+               }
+
+
+          }
+
+          @media screen and (min-width:1200px) {
+              
+               .testimonial-grid{
+
+                    grid-template-areas: 
+                         "one one two five"
+                         "three four four five";
+               }
+
+
+          }
+
+
+     </style>
+</head>
+<body>
+
+     <div class="testimonial-grid">
+
+          <article class="testimonial" style="background: url('https://picsum.photos/id/1012/800/600') center/cover no-repeat;">
+
+               <div class="content">
+                    <h2 class="name">Lorem, ipsum dolor.</h2>
+                    <p>Lorem, ipsum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum cum officiis perspiciatis aperiam voluptatibus, odio ea corrupti impedit amet explicabo!aperiam voluptatibus, odio ea corrupti impedit amet explicabo!</p>
+               </div>
+
+          </article>
+
+
+          <article class="testimonial" style="background: url('https://picsum.photos/id/1013/800/600') center/cover no-repeat;">
+
+               <div class="content">
+                    <h2 class="name">Lorem, ipsum dolor.</h2>
+                    <p>Lorem, ipsum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum cum officiis perspiciatis aperiam voluptatibus, odio ea corrupti impedit amet explicabo!corrupti impedit amet explicabo!</p>
+               </div>
+
+          </article>
+
+          <article class="testimonial" style="background: url('https://picsum.photos/id/1014/800/600') center/cover no-repeat;">
+
+               <div class="content">
+                    <h2 class="name">Lorem, ipsum dolor.</h2>
+                    <p>Lorem, ipsum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum cum officiis perspiciatis aperiam voluptatibus, odio ea corrupti impedit amet explicabo!</p>
+               </div>
+
+          </article>
+
+          <article class="testimonial" style="background: url('https://picsum.photos/id/1015/800/600') center/cover no-repeat;">
+
+               <div class="content">
+                    <h2 class="name">Lorem, ipsum dolor.</h2>
+                    <p>Lorem, ipsum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum cum officiis perspiciatis aperiam voluptatibus, odio ea corrupti impedit amet explicabo!aperiam voluptatibus, odio ea corrupti impedit amet explicabo!</p>
+               </div>
+
+          </article>
+
+          <article class="testimonial" style="background: url('https://picsum.photos/id/1016/800/600') center/cover no-repeat;">
+
+               <div class="content">
+                    <h2 class="name">Lorem, ipsum dolor.</h2>
+                    <p>Lorem, ipsum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum cum officiis perspiciatis aperiam voluptatibus, odio ea corrupti impedit amet explicabo!</p>
+               </div>
+
+          </article>
+
+     </div>
+     
+</body>
+</html>
