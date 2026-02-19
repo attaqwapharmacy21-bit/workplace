@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimonials Grid</title>
+
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: system-ui, sans-serif;
+    background: #cad0d7;
+    line-height: 1.6;
+}
+
+
+.testimonials{
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+    display: grid;
+    gap: 25px;
+    grid-template-areas:
+        "one"
+        "two"
+        "three"
+        "four"
+        "five";
+}
+
+
+.card{
+    padding: 28px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+
+.user{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.user img{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.user h4{
+    font-size: 0.95rem;
+}
+
+.user span{
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+
+.title{
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.desc{
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+
+.card.purple{
+    background: #7541c8;
+    color: #fff;
+    position: relative;
+}
+
+.card.purple::after{
+    content: "“";
+    position: absolute;
+    top: -20px;
+    right: 30px;
+    font-size: 120px;
+    opacity: 0.15;
+}
+
+.card.gray{
+    background: #48556a;
+    color: #fff;
+}
+
+.card.dark{
+    background: #19212e;
+    color: #fff;
+}
+
+
+.one{ grid-area: one; }
+.two{ grid-area: two; }
+.three{ grid-area: three; }
+.four{ grid-area: four; }
+.five{ grid-area: five; }
+
+
+@media (min-width: 700px){
+    .testimonials{
+        grid-template-areas:
+            "one one"
+            "two three"
+            "four four"
+            "five five";
+    }
+}
+
+
+@media (min-width: 1100px){
+    .testimonials{
+        grid-template-areas:
+            "one one two three"
+            "four five five three";
+    }
+}
+</style>
+</head>
+
+<body>
+
+<section class="testimonials">
+
+    <article class="card purple one">
+        <div class="user">
+            <img src="https://i.pravatar.cc/40?img=1">
+            <div>
+                <h4>Daniel Clifford</h4>
+                <span>Verified Graduate</span>
+            </div>
+        </div>
+        <p class="title">
+            I received a job offer mid-course, and the subjects I learned were current. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo et sit nisi ut facere aliquam quaerat dolor cum architecto! Totam! loremmmmmmmmsdhhagfgayfbabafbabafagfuf
+        </p>
+        <p class="desc">
+            I honestly feel I got every penny’s worth. The experience was intense but rewarding.
+        </p>
+    </article>
+
+    <article class="card gray two">
+        <div class="user">
+            <img src="https://i.pravatar.cc/40?img=2">
+            <div>
+                <h4>Jonathan Walters</h4>
+                <span>Verified Graduate</span>
+            </div>
+        </div>
+        <p class="title">
+            The team was very supportive and kept me motivated.
+        </p>
+        <p class="desc">
+            This was one of the best investments I’ve made in myself.
+        </p>
+    </article>
+
+    <article class="card three">
+        <div class="user">
+            <img src="https://i.pravatar.cc/40?img=3">
+            <div>
+                <h4>Kira Whittle</h4>
+                <span>Verified Graduate</span>
+            </div>
+        </div>
+        <p class="title">
+            Such a life-changing experience.
+        </p>
+        <p class="desc">
+            Highly recommended for anyone serious about. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam, id omnis necessitatibus nulla error deleniti nobis recusandae earum dicta harum, minus eaque soluta laudantium beatae vero! Deleniti odio ab repudiandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Id inventore dignissimos dolores. At quos voluptatem libero minima unde consequuntur sit.
+
+        </p>
+    </article>
+
+    <article class="card four">
+        <div class="user">
+            <img src="https://i.pravatar.cc/40?img=4">
+            <div>
+                <h4>Jeanette Harmon</h4>
+                <span>Verified Graduate</span>
+            </div>
+        </div>
+        <p class="title">
+            An overall wonderful and rewarding experience. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, explicabo quibusdam accusantium ipsam temporibus laboriosam quisquam omnis possimus quasi! Eligendi repudiandae hic vitae dolorem ea.
+        </p>
+        <p class="desc">
+            I now have a job I really enjoy and love what I do.
+        </p>
+    </article>
+
+    <article class="card dark five">
+        <div class="user">
+            <img src="https://i.pravatar.cc/40?img=5">
+            <div>
+                <h4>Patrick Abrams</h4>
+                <span>Verified Graduate</span>
+            </div>
+        </div>
+        <p class="title">
+            Awesome teaching support from TAs who did the bootcamp themselves. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, accusantium.
+        </p>
+        <p class="desc">
+            The community and guidance made learning smooth and effective. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi eius, corporis nemo soluta tempore consequuntur dolores rem quos ipsa ut quidem nesciunt! Quia quam dolorem tempora debitis, reprehenderit consectetur minus!
+        </p>
+    </article>
+
+</section>
+
+</body>
+</html>
