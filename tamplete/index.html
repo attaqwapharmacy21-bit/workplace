@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Html Blog Template</title>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+      <header>
+          <div class="top-bar">
+          </div>
+          <div class="header-container"> 
+               <nav class="navbar">
+                    <div class="logo">MyLogo</div>
+                    <ul class="nav-links">
+                         <li><a href="index.html">Home</a></li>
+                         <li><a href="#">About</a></li>
+                         <li><a href="#">Contact</a></li>
+                         <li><a href="#">Blog</a></li>
+                         <li><a href="#">Faq</a></li>
+                    </ul>
+                    <a href="" class="cta-btn">Get Started</a>
+                    <div class="hamburger">&#9776;</div>
+               </nav>
+          </div>
+     </header>
+ 
+
+     <section class="hero">
+
+          <div class="left"></div>
+          <div class="right">
+
+               <div class="content-box">
+
+                    <span>Healthy Food - 19/02/2026</span>
+                    <h1>Join Us To Know More about The benifits of eating healthy foods</h1>
+
+               </div>
+
+          </div>
+
+     </section>
+
+     <script>
+     // Select elements
+     const hamburger = document.querySelector('.hamburger');
+     const navLinks = document.querySelector('.nav-links');
+     // Toggle menu on hamburger click
+     hamburger.addEventListener('click', () => {
+          navLinks.classList.toggle('active');
+     });
+</script>    
+     
+</body>
+</html>
