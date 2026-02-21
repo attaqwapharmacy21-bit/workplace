@@ -131,13 +131,7 @@
                padding: 0px 20px;
                margin: 0 auto;
           }
-          .top-bar{
-              
-               color:#48d20c;
-               text-align: center;
-               padding: 5px 0px;
-               
-          }
+          
           .navbar{
                display: flex;
                justify-content: space-between;
@@ -165,14 +159,14 @@
               bottom: 0;
               width:0%;
               height: 2px;
-              background-color: #1dc1de;
+              background-color: #b0ef33;
               transition: width 0.3s ease;
           }
           .nav-links a:hover::after{
                width: 100%;
           }
           .nav-links a:hover{
-               color:#1dc1de;
+               color:#32d212;
           }
           .logo{
                font-size: 35px;
@@ -182,7 +176,7 @@
           .logo:hover{
                 transition: 2s ease;
                   transform: scale(1.10);
-                  color: rgb(49, 94, 218);
+                  color: #32d212;
                   cursor: pointer;
           }
           .cta-btn{
@@ -195,7 +189,7 @@
                transition:background-color 0.3s ease;
           }
           .cta-btn:hover{
-               background-color:#12b2d2;
+               background-color:#32d212;
                transform: scale(1.05);
           }
           .hamburger{
@@ -215,7 +209,7 @@
         }
         h1:hover{
             transform: scale(1.17);
-            color: rgb(33, 52, 255);
+            color:#32d212;
             cursor: pointer;
 
         }
