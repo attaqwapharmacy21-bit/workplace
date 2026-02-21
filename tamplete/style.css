@@ -12,6 +12,7 @@
      position: relative;
 }
 
+
 .hero .left{
 
      background-image: url('bg.jpeg');
@@ -88,6 +89,39 @@
                }
           }
 
+          
+        /*====Large Screen 4 Columns======*/
+        @media (min-width:1200px) {
+
+            .grid-container {
+
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+
+        }
+
+
+        /*====Medium Screen 2 Columns======*/
+        @media (min-width:768px) and (max-width: 1199px) {
+
+            .grid-container {
+
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        /*====Small Screen 1 Columns======*/
+        @media (max-width: 767px) {
+
+            .grid-container {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
   
           header{
                width:100%;
@@ -170,4 +204,48 @@
                display: none;
           }
         
-         
+          
+
+        h1 {
+
+            text-align: center;
+            margin: 20px 0px;
+            font-weight: bold;
+            font-size: 40px;
+            font-family: Momo Signature;
+             transition: transform 4s ease-in-out, color 4s ease;
+        }
+        h1:hover{
+            transform: scale(1.17);
+            color: rgb(33, 52, 255);
+            cursor: pointer;
+
+        }
+
+        .card {
+
+            background-color: gainsboro;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+           
+
+        }
+
+        .grid-container {
+
+            display: grid;
+            gap: 15px;
+        }
+
+
+        p {
+            text-align: justify;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+
+
+ 

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Tow Columns Layout</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .content-wrapper{
+            max-width: 100%;
+            padding:30px;
+            background-color: whitesmoke;
+        }
+        .grid-container{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            align-items: center;
+        }
+        .text-column{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .text-column h2{
+            margin-bottom: 10px;
+            font-size: 30px;
+            color: #333;
+        }
+        .image-column img{
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+            transition:  transform 0.3s ease;
+        }
+        .image-column img:hover{
+             transform: scale(1.1);
+        }
+
+
+        .text-column p{
+            font-size: 18px;
+            line-height: 1.5;
+            text-align: justify;
+        }
+        .btn{
+            border-radius: 50px;
+            width: 120px;
+            height: 50px;
+            background:rgb(235, 22, 22);
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .btn:hover{
+            background:#59e6ff ;   
+            transform: scale(1.1);
+            border: 2px solid rgb(68, 16, 255);
+        }
+
+        .button-container{
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: right;
+            gap: 20px;
+        }
+        @media (max-width : 768px){
+            .grid-container{
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="grid-container">
+            <div class="text-column">
+                <h2>Responsive Grid Layout</h2>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi velit quia ab autem voluptatum mollitia, quam incidunt, enim tenetur excepturi reprehenderit quod voluptates magni eaque nulla minus modi. Nam, facilis. Consequatur, dolore vel est temporibus eaque ipsa laboriosam odit, deserunt sint laborum necessitatibus, earum qui quae nihil consectetur libero quasi? Nam, facilis. Consequatur, dolore vel est temporibus eaque ipsa laboriosam odit, deserunt sint laborum necessitatibus, earum qui quae nihil consectetur libero quasi</p>
+            </div>
+            <div class="image-column">
+                <img src="/images/16.jpg" alt="placeholder image" >
+
+            </div>
+             <div class="image-column">
+                    <img src="/images/15.jpg" alt="placeholder image" >
+            </div>
+              <div class="text-column">
+                <h2>Responsive Grid Layout</h2>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi velit quia ab autem voluptatum mollitia, quam incidunt, enim tenetur excepturi reprehenderit quod voluptates magni eaque nulla minus modi. Nam, facilis. Consequatur, dolore vel est temporibus eaque ipsa laboriosam odit, deserunt sint laborum necessitatibus, earum qui quae nihil consectetur libero quasi? Nam, facilis. Consequatur, dolore vel est temporibus eaque ipsa laboriosam odit, deserunt sint laborum necessitatibus, earum qui quae nihil consectetur libero quasi</p>
+            </div>
+            <div class="button-container">
+                <button class="btn">Read More</button>
+                <button class="btn">FAQ</button>
+            </div>
+            
+
+
+    </div>
+</body>
+</html>
