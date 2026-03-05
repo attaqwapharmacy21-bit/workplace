@@ -58,7 +58,7 @@
             z-index: 10;
         }
 
-        /* Lamp Section */
+       
         .lamp-section {
             flex: 1;
             display: flex;
@@ -73,7 +73,7 @@
             height: 500px;
         }
 
-        /* Lamp Glow Effect */
+        
         .lamp-glow {
             position: absolute;
             top: 50%;
@@ -105,7 +105,7 @@
             }
         }
 
-        /* Lamp Base */
+        
         .lamp-base {
             position: absolute;
             bottom: 50px;
@@ -133,7 +133,7 @@
             filter: blur(2px);
         }
 
-        /* Lamp Stand */
+        
         .lamp-stand {
             position: absolute;
             bottom: 80px;
@@ -149,7 +149,7 @@
                 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
-        /* Lamp Shade */
+        
         .lamp-shade {
             position: absolute;
             top: 80px;
@@ -196,7 +196,7 @@
             background: linear-gradient(135deg, rgba(255, 240, 200, 0.4) 0%, transparent 60%);
         }
 
-        /* Light Bulb */
+        
         .light-bulb {
             position: absolute;
             top: 140px;
@@ -240,7 +240,7 @@
             background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.3) 50%, transparent 70%);
         }
 
-        /* Pull Cord */
+      
         .pull-cord-container {
             position: absolute;
             top: 190px;
@@ -303,7 +303,7 @@
             height: 120px;
         }
 
-        /* Login Form Section */
+       
         .login-section {
             flex: 1;
             display: flex;
@@ -445,7 +445,7 @@
             margin: 0;
         }
 
-        /* Responsive Design */
+        
         @media (max-width: 968px) {
             .container {
                 flex-direction: column;
@@ -472,7 +472,7 @@
             }
         }
 
-        /* Custom Cursor for Pull Cord */
+       
         .pull-cord-container {
             cursor: grab;
         }
@@ -486,7 +486,7 @@
     <h1 class="title">Lamp-login</h1>
     
     <div class="container">
-        <!-- Lamp Section -->
+    
         <div class="lamp-section">
             <div class="lamp-container">
                 <div class="lamp-glow" id="lampGlow"></div>
@@ -502,7 +502,7 @@
             </div>
         </div>
 
-        <!-- Login Form Section -->
+       
         <div class="login-section">
             <form class="login-form" id="loginForm">
                 <h2 class="form-title">Welcome Back</h2>
@@ -539,7 +539,7 @@
     </div>
 
     <script>
-        // Get elements
+        
         const pullCord = document.getElementById('pullCord');
         const lampGlow = document.getElementById('lampGlow');
         const lampShade = document.getElementById('lampShade');
@@ -553,36 +553,36 @@
         let isDragging = false;
         let startY = 0;
 
-        // Toggle lamp state
+       
         function toggleLamp() {
             isLampOn = !isLampOn;
             
             if (isLampOn) {
-                // Turn lamp ON
+                
                 lampGlow.classList.add('active');
                 lampShade.classList.add('lit');
                 lightBulb.classList.add('lit');
                 loginForm.classList.add('active');
                 
-                // Enable form inputs
+                
                 emailInput.disabled = false;
                 passwordInput.disabled = false;
                 loginButton.disabled = false;
             } else {
-                // Turn lamp OFF
+             
                 lampGlow.classList.remove('active');
                 lampShade.classList.remove('lit');
                 lightBulb.classList.remove('lit');
                 loginForm.classList.remove('active');
                 
-                // Disable form inputs
+               
                 emailInput.disabled = true;
                 passwordInput.disabled = true;
                 loginButton.disabled = true;
             }
         }
 
-        // Click handler
+       
         pullCord.addEventListener('click', () => {
             pullCord.classList.add('pulling');
             setTimeout(() => {
@@ -591,7 +591,7 @@
             }, 150);
         });
 
-        // Mouse drag handlers
+       
         pullCord.addEventListener('mousedown', (e) => {
             isDragging = true;
             startY = e.clientY;
@@ -616,7 +616,7 @@
             }
         });
 
-        // Touch drag handlers for mobile
+        
         pullCord.addEventListener('touchstart', (e) => {
             isDragging = true;
             startY = e.touches[0].clientY;
@@ -641,7 +641,7 @@
             }
         });
 
-        // Form submission handler
+        
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             if (isLampOn) {
