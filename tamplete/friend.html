@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixed Layout</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+
+header{
+  width:100%;
+  background:#ffe7e7;
+}
+
+.header-container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 20px;
+}
+
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  height:60px;
+  position:relative;
+}
+
+.logo{
+  font-size:35px;
+  font-weight:bold;
+}
+
+.nav-links{
+  display:flex;
+  list-style:none;
+}
+
+.nav-links li{
+  margin-left:20px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  font-size:23px;
+  color:#000;
+}
+
+.cta-btn{
+  background:red;
+  color:#fff;
+  padding:8px 16px;
+  border-radius:10px;
+  text-decoration:none;
+}
+
+.hamburger{
+  display:none;
+  font-size:26px;
+  cursor:pointer;
+}
+
+
+.hero{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  position:relative;
+}
+
+.hero .left{
+  background:url(1.jpg) center/cover no-repeat;
+  height:70vh;
+}
+
+.hero .right{
+  background:rgba(254,14,14,0.658);
+  height:70vh;
+}
+
+
+.hero .content-box{
+  background:#fff;
+  position:absolute;
+  width:35%;
+  padding:35px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+
+.grid-container{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  padding:20px;
+}
+
+.card{
+  flex:1 1 300px;
+  background:#fff;
+  text-align:center;
+}
+
+.card h2{
+  color:red;
+}
+
+.card p{
+  text-align:justify;
+  font-weight:bold;
+}
+
+.card-link{
+  display:block;
+  margin-top:10px;
+}
+
+.sidebar{
+  flex:1 1 200px;
+  font-weight:bold;
+}
+
+
+@media (max-width:768px){
+
+  .nav-links{
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    top:60px;
+    left:0;
+    width:100%;
+    background:#fff;
+  }
+
+  .nav-links.active{
+    display:flex;
+  }
+
+  .nav-links li{
+    margin:10px 0;
+    text-align:center;
+  }
+
+  .cta-btn{
+    display:none;
+  }
+
+  .hamburger{
+    display:block;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+  }
+
+  .hero .left,
+  .hero .right{
+    height:40vh;
+  }
+
+  .hero .content-box{
+    width:85%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-container">
+    <nav class="navbar">
+      <div class="logo">Mylogo</div>
+
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Abaut</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Submit</a></li>
+      </ul>
+
+      <a href="#" class="cta-btn">Get Started</a>
+      <div class="hamburger">&#9776;</div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="left"></div>
+  <div class="right"></div>
+
+  
+  <div class="content-box">
+    <span>mye nams saymon</span>
+    <h1>mye job web deplop</h1>
+  </div>
+</section>
+
+<div class="grid-container">
+
+  <div class="card">
+    <img src="1.jpg" style="width:50%;height:60%;" alt="">
+    <h2>Lorem, Ipsum.</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, omnis.</p>
+    <a href="#" class="card-link">Read more</a>
+  </div>
+
+  <div class="card">
+    <img src="2.jpg" style="width:50%;height:60%;" alt="">
+    <h2>Lorem, Ipsum.</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing. Lorem ipsum dolor sit amet consectetur adipisicing elit. At, aut?</p>
+    <a href="#" class="card-link">Read more</a>
+  </div>
+
+  <div class="sidebar">
+    <h3>This is side bar</h3>
+  </div>
+
+</div>
+
+<script>
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+
+hamburger.addEventListener('click',()=>{
+  navLinks.classList.toggle('active');
+});
+</script>
+
+</body>
+</html>
